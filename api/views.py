@@ -6,6 +6,7 @@ from rest_framework import status
 import os
 import numpy as np
 import cv2
+from api.predict import predict
 
 class ImageUploadAPI(APIView):
     def post(self, request, format=None):
@@ -13,6 +14,7 @@ class ImageUploadAPI(APIView):
         if serializer.is_valid():
             image_file = request.FILES['theyyam_image']
             image_specs = []
+            output = None
             try:
                 # Decode image data to OpenCV object
                 img = cv2.imdecode(np.fromstring(image_file.read(), np.uint8), cv2.IMREAD_COLOR)
@@ -21,8 +23,9 @@ class ImageUploadAPI(APIView):
                     "height":img.shape[0],
                     "channels":img.shape[2],
                 }
+                output = predict(img)
             except Exception as error:
                 print(error)
 
-            return Response({"status":"Success","image":image_specs})
+            return Response({"status":"Success","image":image_specs,"classification":output})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
