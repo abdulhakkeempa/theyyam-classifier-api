@@ -12,10 +12,10 @@ class ImageUploadAPI(APIView):
         serializer = ImageSerializer(data=request.data)
         if serializer.is_valid():
             image_file = request.FILES['theyyam_image']
+            image_specs = []
             try:
                 # Decode image data to OpenCV object
                 img = cv2.imdecode(np.fromstring(image_file.read(), np.uint8), cv2.IMREAD_COLOR)
-                print(img.shape)
                 image_specs = {
                     "width":img.shape[1],
                     "height":img.shape[0],
