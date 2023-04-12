@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from keras.models import load_model
+import pickle
+import sklearn
 
 load_dotenv()
 
@@ -127,3 +130,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#loading the model files.
+try:
+    MODEL = load_model("model/my_model.h5")
+    MODEL.load_weights('model/my_checkpoint')
+
+    with open('model/label_encoder.pkl', 'rb') as f:
+        LABEL_ENCODER = pickle.load(f)
+except Exception as error:
+    print(error)
