@@ -25,15 +25,14 @@ class ImageUploadAPI(APIView):
                     "channels":img.shape[2],
                 }
                 output = predict(img)
-
+                details = ""
                 # Retrieve the object with the matching string value
                 try:
                     obj = theyyam.objects.get(theyeem=output)
                     details = obj.description
                     # Do something with the retrieved object
                 except theyyam.DoesNotExist:
-                    details = ""
-
+                    pass
             except Exception as error:
                 print(error)
 
