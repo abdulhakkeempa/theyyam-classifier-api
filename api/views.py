@@ -28,7 +28,7 @@ class ImageUploadAPI(APIView):
                 details = ""
                 # Retrieve the object with the matching string value
                 try:
-                    obj = theyyam.objects.get(theyeem=output)
+                    obj = theyyam.objects.get(theyyam=output)
                     details = obj.description
                     # Do something with the retrieved object
                 except theyyam.DoesNotExist:
