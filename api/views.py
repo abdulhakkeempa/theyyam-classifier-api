@@ -7,6 +7,7 @@ import os
 import numpy as np
 import cv2
 from api.predict import predict
+from api.models import theyyam
 
 class ImageUploadAPI(APIView):
     def post(self, request, format=None):
@@ -24,8 +25,17 @@ class ImageUploadAPI(APIView):
                     "channels":img.shape[2],
                 }
                 output = predict(img)
+
+                # Retrieve the object with the matching string value
+                try:
+                    obj = theyyam.objects.get(theyeem=output)
+                    details = obj.description
+                    # Do something with the retrieved object
+                except theyyam.DoesNotExist:
+                    details = ""
+
             except Exception as error:
                 print(error)
 
-            return Response({"status":"Success","image":image_specs,"classification":output})
+            return Response({"status":"Success","image":image_specs,"classification":output,"details":details})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
